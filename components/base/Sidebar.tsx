@@ -63,7 +63,7 @@ const menus: Menus = [
 
 export const Sidebar = (props: Props) => {
   return (
-    <aside className={`absolute left-0 h-screen bg-[#101828] text-white w-[70vw] md:w-[35vw] lg:w-[30vw] xl:w-[15vw] border-r p-4 transition-transform duration-300 ease-in-out z-30 xl:static  ${
+    <aside className={`absolute left-0 h-[calc(100dvh)] bg-[#101828] text-white w-[70vw] md:w-[35vw] lg:w-[30vw] xl:w-[15vw] border-r p-4 transition-transform duration-300 ease-in-out z-30 xl:static  ${
       props.visible ? 'translate-x-0' : '-translate-x-full xl:translate-x-0'
     }`}>
       <div className="logo font-semibold">💥 RestPad.io</div>
