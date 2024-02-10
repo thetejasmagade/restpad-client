@@ -34,7 +34,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="flex">
           <Sidebar visible={isSidebarOpen} />
-          <div onClick={closeSidebarHandler} className={`w-full min-h-screen xl:w-[85vw] ${isSidebarOpen ? 'bg-black xl:bg-current opacity-20 xl:opacity-0' : ''}`}>
+          <div onClick={closeSidebarHandler} className={`w-full h-[calc(100dvh)] xl:w-[85vw] ${isSidebarOpen ? 'bg-black xl:bg-current opacity-20 xl:opacity-0' : ''}`}>
             <Navbar handleSidebar={sidebarHandler} />
             <main className="p-4 static">
               {children}
