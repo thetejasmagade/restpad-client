@@ -1,0 +1,15 @@
+.menu {
+  display: flex;
+  padding: 8px 0px;
+  align-items: center;
+  padding-left: 15px;
+  border-radius: 6px;
+  gap: 18px;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+
+.active {
+    background: #344054;
+}
