@@ -50,7 +50,7 @@ export const ApiGeneratorParent = () => {
           <p className="font-semibold text-lg">Select Your Fields</p>
           <button onClick={addNewField}>Add New Column</button>
         </div>
-        <div className="border border-[#101828] p-2 rounded-md overflow-y-auto min-h-[40vh] xl:h-[80vh]">
+        <div className="border border-[#101828] p-2 rounded-md overflow-y-auto h-[40vh] xl:min-h-[80vh] xl:h-[80vh]">
           <FieldsSelector fields={fields} handleColumnName={setName} handleColumnType={setType} handleRemoveColumn={removeField} />
         </div>
       </div>
