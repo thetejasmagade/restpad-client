@@ -55,7 +55,7 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
               <label className="block">Column Title</label>
               <Input
                 type="text"
-                className="border-2 font-semibold"
+                className="border-2 font-medium"
                 value={el.name}
                 onChange={(e) => {
                   props.handleColumnName
