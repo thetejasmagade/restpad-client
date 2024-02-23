@@ -55,7 +55,7 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
               <label className="block">Column Title</label>
               <Input
                 type="text"
-                className="border-2 font-medium"
+                className="border-2 font-medium w-[100%] md:w-auto"
                 value={el.name}
                 onChange={(e) => {
                   props.handleColumnName
@@ -65,7 +65,7 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
               />
             </div>
             <div>
-              <label className="block">Datatype {el.value}</label>
+              <label className="block">Datatype</label>
               <Popover
                 open={openStates[i]}
                 onOpenChange={(newState: boolean) =>
