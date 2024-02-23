@@ -21,7 +21,7 @@ export default function RootLayout({
 
   return (
     <div className="flex">
-      <Sidebar visible={isSidebarOpen} />
+      <Sidebar visible={isSidebarOpen} handleSidebar={sidebarHandler} />
       <div
         onClick={closeSidebarHandler}
         className={`w-full h-[calc(100dvh)] xl:w-[85vw] ${
