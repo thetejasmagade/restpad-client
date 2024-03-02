@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { ApiGeneratorComponentProps } from "../types";
+import * as Types from "@/components/types";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
@@ -58,8 +59,12 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
                 className="border-2 font-medium w-[100%] md:w-auto"
                 value={el.name}
                 onChange={(e) => {
-                  props.handleColumnName
-                    ? props.handleColumnName(e.target.value, el.id)
+                  props.fieldHandlerFn
+                    ? props.fieldHandlerFn(
+                        Types.ValueTypes.Name,
+                        e.target.value,
+                        el.id
+                      )
                     : "";
                 }}
               />
@@ -77,7 +82,7 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
                     variant="outline"
                     role="combobox"
                     aria-expanded={openStates[i]}
-                    className="w-[180px] md:w-[200px] justify-between"
+                    className="border-2 w-[180px] md:w-[200px] justify-between"
                   >
                     {el.type
                       ? columnTypes.find((type) => type.value === el.type)?.name
@@ -95,11 +100,13 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
                     <CommandGroup>
                       {columnTypes.map((type) => (
                         <CommandItem
+                          className="cursor-pointer"
                           key={type.value}
                           value={type.value}
                           onSelect={(currentValue) => {
-                            if (props.handleColumnType)
-                              props?.handleColumnType(
+                            if (props.fieldHandlerFn)
+                              props?.fieldHandlerFn(
+                                Types.ValueTypes.Type,
                                 currentValue === el.type ? "" : currentValue,
                                 el.id
                               );
@@ -124,7 +131,11 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
             </div>
             <div className="mt-5">
               <Image
-                onClick={() => props.handleRemoveColumn ? props.handleRemoveColumn(el.id) : ''}
+                onClick={() =>
+                  props.fieldHandlerFn
+                    ? props.fieldHandlerFn(Types.ValueTypes.RemoveField, el.id)
+                    : ""
+                }
                 className="cursor-pointer"
                 src="/delete-dustbin.svg"
                 alt="delete"

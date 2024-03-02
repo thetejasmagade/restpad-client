@@ -25,7 +25,7 @@ export default function RootLayout({
       <div
         onClick={closeSidebarHandler}
         className={`w-full h-[calc(100dvh)] xl:w-[85vw] ${
-          isSidebarOpen ? "bg-black xl:bg-current opacity-20 xl:opacity-0" : ""
+          isSidebarOpen ? "" : ""
         }`}
       >
         <Navbar handleSidebar={sidebarHandler} />

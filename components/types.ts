@@ -7,10 +7,14 @@ export interface Field {
 
 export type Fields = Array<Field>;
 
+export enum ValueTypes {
+    Name = "NAME",
+    Type = "TYPE",
+    RemoveField = "REMOVE_FIELD",
+}
+
 export interface ApiGeneratorComponentProps {
     fields: Fields;
-    handleColumnName?(value: string, id: string): void;
-    handleColumnType?(value: string, id: string): void;
-    handleRemoveColumn?(id: string): void;
+    fieldHandlerFn?(handlerType: ValueTypes, value: string, id?: string): void;
 }
 
