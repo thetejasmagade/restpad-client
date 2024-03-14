@@ -133,7 +133,7 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
               <Image
                 onClick={() =>
                   props.fieldHandlerFn
-                    ? props.fieldHandlerFn(Types.ValueTypes.RemoveField, el.id)
+                    ? props.fieldHandlerFn(Types.ValueTypes.RemoveField, '', el.id)
                     : ""
                 }
                 className="cursor-pointer"
