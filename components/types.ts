@@ -18,3 +18,6 @@ export interface ApiGeneratorComponentProps {
     fieldHandlerFn?(handlerType: ValueTypes, value: string, id?: string): void;
 }
 
+export interface GithubAuthBtnProps {
+    isLogin: boolean;
+}
