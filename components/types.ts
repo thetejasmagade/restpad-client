@@ -21,3 +21,7 @@ export interface ApiGeneratorComponentProps {
 export interface GithubAuthBtnProps {
     isLogin: boolean;
 }
+
+export interface QuotesProps {
+    quote: string;
+}
