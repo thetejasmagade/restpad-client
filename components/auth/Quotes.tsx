@@ -70,7 +70,7 @@ export function AuthQuotes(props: Types.QuotesProps) {
               </svg>
             </span>
           </div>
-          <blockquote className={`z-10 max-w-lg text-3xl ${roboto_Slab.className}`}>
+          <blockquote className={`z-10 font-semibold max-w-lg text-3xl ${roboto_Slab.className}`}>
             {props.quote}
           </blockquote>
         </div>
