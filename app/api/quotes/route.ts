@@ -11,5 +11,5 @@ const arr: Array<String> = [
 
 // Handles GET requests to /api
 export async function GET(request: Request) {
-  return NextResponse.json({ quote: arr[Math.floor(Math.random() * arr.length)], demo: Math.floor(Math.random() * arr.length) });
+  return NextResponse.json({ quote: arr[Math.floor(Math.random() * arr.length)]});
 }
