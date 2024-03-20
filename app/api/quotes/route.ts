@@ -1,4 +1,6 @@
-const arr = [
+import { NextRequest, NextResponse } from "next/server";
+
+const arr: Array<String> = [
   "Empower 💪 your projects with Restpad's REST API and efficient database.",
   "Just pick the dropdowns, and let Restpad handle the rest!",
   "Restpad: Crafting APIs has never been simpler. Select, customize 🎨, done!",
@@ -7,7 +9,7 @@ const arr = [
   "Generate your next SAAS Projects API within seconds 🙌"
 ]
 
-
-export async function GET() {
-  return arr[Math.floor(Math.random() * arr.length)]
+// Handles GET requests to /api
+export async function GET(request: Request) {
+  return NextResponse.json({ quote: arr[Math.floor(Math.random() * arr.length)] });
 }

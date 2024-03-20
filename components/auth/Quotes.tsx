@@ -11,7 +11,8 @@ const roboto_Slab = Roboto_Slab({ subsets: ["latin"] });
 // };
 
 export const AuthQuotes = () => {
-//   const data = getPosts();
+  // const data = getPosts();
+  // console.log(data)
 
   return (
     <div className="flex items-center justify-center h-full">
