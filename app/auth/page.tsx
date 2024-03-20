@@ -3,7 +3,7 @@ import { AuthQuotes } from "@/components/auth/Quotes";
 
 
 async function getQuote(): Promise<any> {
-  let quote = await fetch("http://localhost:3000/api/quotes", { cache: 'no-store' });
+  let quote = await fetch(`${process.env.CLIENT_SIDE_API_URL}api/quotes`, { cache: 'no-store' });
   quote = await quote.json();
 
   return quote;
