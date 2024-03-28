@@ -25,3 +25,18 @@ export interface GithubAuthBtnProps {
 export interface QuotesProps {
     quote: string;
 }
+
+export interface AuthFields {
+    email: string;
+    password: string;
+}
+
+export enum AuthField {
+    Email = "EMAIL",
+    Password = "PASSWORD"
+}
+
+export interface VerifyMailModal {
+    isModalOpen: boolean;
+    email: string;
+}

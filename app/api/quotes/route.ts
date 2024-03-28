@@ -9,7 +9,7 @@ const arr: Array<String> = [
   "Generate your next SAAS Projects API within seconds 🙌."
 ]
 
-// Handles GET requests to /api
+// Handles GET requests to /api/quotes
 export async function GET(request: Request) {
   return NextResponse.json({ quote: arr[Math.floor(Math.random() * arr.length)]});
 }
