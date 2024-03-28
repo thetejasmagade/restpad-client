@@ -20,6 +20,7 @@ export const AuthForm = () => {
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [fullPageloading, setfullPageloading] = useState<boolean>(true);
   const [authFields, setAuthFields] = useState<Types.AuthFields>({
     email: "",
     password: "",
@@ -27,7 +28,7 @@ export const AuthForm = () => {
   const [user, setUser] = useState<User | null>(null);
   const [verifyModal, setverifyModal] = useState<Types.VerifyMailModal>({
     isModalOpen: false,
-    email: "magadetejas@hamdl",
+    email: "",
   });
 
   useEffect(() => {
@@ -93,6 +94,7 @@ export const AuthForm = () => {
     console.log("onload", user);
 
     if (user) router.push("/app");
+    setfullPageloading(false);
   };
 
   const resetFields = () => {
