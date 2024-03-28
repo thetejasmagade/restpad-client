@@ -1,5 +1,5 @@
 "use client";
-import { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent, useEffect, useMemo } from "react";
 import {
   createClientComponentClient,
   User,
@@ -7,6 +7,7 @@ import {
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { toast } from "sonner";
 import { GithubAuthBtn } from "./GithubAuthBtn";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -53,11 +54,14 @@ export const AuthForm = () => {
     });
     setLoading(false);
     console.log("signupclick", res);
-    if (res.data.user?.user_metadata.email_verified == false)
-      setverifyModal({
-        isModalOpen: true,
-        email: res.data.user.email || "",
-      });
+    if (res.error) toast.error(res.error.message);
+    else {
+      if (res.data.user?.user_metadata.email_verified == false)
+        setverifyModal({
+          isModalOpen: true,
+          email: res.data.user.email || "",
+        });
+    }
     resetFields();
     // if(user) router.push('/app')
 
@@ -69,15 +73,18 @@ export const AuthForm = () => {
     const res = await supabase.auth.signInWithPassword({
       ...authFields,
     });
-    console.log('Login', res)
-    if(res.data.session) router.push('/app');
-    resetFields();
+    console.log("Login", res);
     setLoading(false);
+    if (res.error) toast.error(res.error.message);
+    else {
+      if (res.data.session) router.push("/app");
+    }
+    resetFields();
     // router.refresh();
   };
 
   const getUserFromSupabase = async () => {
-    // const { error } = await supabase.auth.signOut() 
+    // const { error } = await supabase.auth.signOut()
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -85,7 +92,7 @@ export const AuthForm = () => {
 
     console.log("onload", user);
 
-    if(user) router.push('/app')
+    if (user) router.push("/app");
   };
 
   const resetFields = () => {
@@ -95,12 +102,21 @@ export const AuthForm = () => {
     });
   };
 
+  const checkValidations = useMemo((): boolean => {
+    if (authFields.email && authFields.password) {
+      return true;
+    } else {
+      return false;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authFields]);
+
   return (
     <>
       <div className="h-full flex flex-col justify-center">
         <div className="m-6 absolute top-0">
           <Link href="/" className="logo font-semibold">
-            💥 RestPad.io {user?.user_metadata.email_verified}
+            💥 RestPad.io {checkValidations}
           </Link>
         </div>
         <div className="mx-16">
@@ -154,7 +170,7 @@ export const AuthForm = () => {
             />
             <Button
               onClick={isLogin ? handleSignIn : handleSignUp}
-              className="block w-full bg-[#2a4680] hover:bg-blue-950"
+              className={`block w-full bg-[#2a4680] hover:bg-blue-950 ${checkValidations ? 'pointer-events-auto' : 'pointer-events-none'}`}
             >
               <div className="flex items-center justify-center">
                 {loading ? (

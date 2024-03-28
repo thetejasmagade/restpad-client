@@ -1,16 +1,24 @@
 import { AuthForm } from "@/components/auth/Form";
 import { AuthQuotes } from "@/components/auth/Quotes";
 
-
 async function getQuote(): Promise<any> {
-  let quote = await fetch(`${process.env.CLIENT_SIDE_API_URL}api/quotes`, { cache: 'no-store' });
+  let quote = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/Quotes?select=*`, {
+    headers: {
+      "apikey": process.env.SECRET_SUPABASE_SERVICE_ROLE_KEY + '',
+      "Authorization": "Bearer " + process.env.SECRET_SUPABASE_SERVICE_ROLE_KEY
+    },
+    method: 'GET',
+    cache: "no-store",
+  });
+  
   quote = await quote.json();
-
+  
   return quote;
 }
 
 export default async function AuthPage() {
-  const data = await getQuote();
+  let data: any = await getQuote();
+  data = data[Math.floor(Math.random() * data.length)];
 
   return (
     <>
