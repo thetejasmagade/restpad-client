@@ -35,7 +35,7 @@ export default function RootLayout({
   }, []);
 
   const getUserFromSupabase = async () => {
-    const { error } = await supabase.auth.signOut()
+    // const { error } = await supabase.auth.signOut()
     // setLoading(true);
     const {
       data: { user },
