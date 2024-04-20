@@ -1,5 +1,7 @@
+import { useRouter } from "next/navigation";
 import { createAvatar } from "@dicebear/core";
 import { lorelei } from "@dicebear/collection";
+import { supabase } from "@/utils/supabaseClient";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
@@ -9,6 +11,7 @@ interface Props {
 }
 
 export const Navbar = (props: Props) => {
+  const router = useRouter();
   const avatar = createAvatar(lorelei, {
     seed: "Tejas Magade",
     backgroundType: ["solid"],
@@ -16,6 +19,12 @@ export const Navbar = (props: Props) => {
   });
 
   const avatarSvg = avatar.toDataUriSync();
+
+
+  const logOut = () => {
+    supabase.auth.signOut();
+    router.push('/auth');
+  }
 
   return (
     <nav>
@@ -44,7 +53,7 @@ export const Navbar = (props: Props) => {
               FREE Plan
             </span>
           </div>
-          <div className="avatar">
+          <div className="avatar" onClick={logOut}>
             <Avatar>
               <AvatarImage src={avatarSvg} />
               <AvatarFallback>TM</AvatarFallback>

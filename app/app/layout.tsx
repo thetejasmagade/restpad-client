@@ -1,10 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import {
-  createClientComponentClient,
-  User,
-} from "@supabase/auth-helpers-nextjs";
+import { supabase } from "@/utils/supabaseClient";
 import { Navbar } from "@/components/base/Navbar";
 import { Sidebar } from "@/components/base/Sidebar";
 import FullPageLoader from "@/components/base/FullPageLoader";
@@ -15,7 +12,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
-  const supabase = createClientComponentClient();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 

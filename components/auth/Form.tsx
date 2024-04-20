@@ -1,9 +1,7 @@
 "use client";
 import { useState, FormEvent, useEffect, useMemo } from "react";
-import {
-  createClientComponentClient,
-  User,
-} from "@supabase/auth-helpers-nextjs";
+import { User } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "@/utils/supabaseClient";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -16,9 +14,8 @@ import * as Types from "@/components/types";
 
 export const AuthForm = () => {
   const router = useRouter();
-  const supabase = createClientComponentClient();
 
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [fullPageloading, setfullPageloading] = useState<boolean>(true);
   const [authFields, setAuthFields] = useState<Types.AuthFields>({
@@ -57,11 +54,18 @@ export const AuthForm = () => {
     console.log("signupclick", res);
     if (res.error) toast.error(res.error.message);
     else {
-      if (res.data.user?.user_metadata.email_verified == false)
-        setverifyModal({
-          isModalOpen: true,
-          email: res.data.user.email || "",
-        });
+      if (res.data && res.data.user) {
+        if (res.data.user.identities && res.data.user.identities.length > 0) {
+          console.log("Sign-up successful!");
+          setverifyModal({
+            isModalOpen: true,
+            email: res.data.user.email || "",
+          });
+        } else {
+          toast.error("Email address is already taken.");
+          resetFields();
+        }
+      }
     }
     resetFields();
     // if(user) router.push('/app')
@@ -172,7 +176,9 @@ export const AuthForm = () => {
             />
             <Button
               onClick={isLogin ? handleSignIn : handleSignUp}
-              className={`block w-full bg-[#2a4680] hover:bg-blue-950 ${checkValidations ? 'pointer-events-auto' : 'pointer-events-none'}`}
+              className={`block w-full bg-[#2a4680] hover:bg-blue-950 ${
+                checkValidations ? "pointer-events-auto" : "pointer-events-none"
+              }`}
             >
               <div className="flex items-center justify-center">
                 {loading ? (
