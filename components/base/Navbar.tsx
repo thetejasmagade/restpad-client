@@ -28,7 +28,7 @@ export const Navbar = (props: Props) => {
 
   return (
     <nav>
-      <div className="flex items-center justify-between h-[6vh] xl:h-[8vh] px-4 py-1 border-b">
+      <div className="bg-gray-50 flex items-center justify-between h-[6vh] xl:h-[8vh] px-4 py-1 border-b">
         <button onClick={props.handleSidebar} className="block xl:hidden">
           <Image
             src="/menu-icons/hamburger.svg"
