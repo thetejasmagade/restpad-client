@@ -4,11 +4,11 @@ import { AuthQuotes } from "@/components/auth/Quotes";
 async function getQuote(): Promise<any> {
   let quote = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/Quotes?select=*`, {
     headers: {
-      "apikey": process.env.SECRET_SUPABASE_SERVICE_ROLE_KEY + '',
-      "Authorization": "Bearer " + process.env.SECRET_SUPABASE_SERVICE_ROLE_KEY
+      "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY + '',
+      "Authorization": "Bearer " + process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     },
     method: 'GET',
-    cache: "no-store",
+    cache: "force-cache",
   });
   
   quote = await quote.json();
