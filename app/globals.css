@@ -92,7 +92,7 @@ table thead, table tbody tr {
   width: max-content;
   padding-left: 14px;
   padding-right: 14px;
-  height: 34px;
+  height: 36px;
   border: none;
   outline: none;
   color: #fff;
@@ -101,7 +101,7 @@ table thead, table tbody tr {
   position: relative;
   z-index: 0;
   font-size: 12px;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .glow-on-hover:before {
@@ -118,7 +118,7 @@ table thead, table tbody tr {
   animation: glowing 20s linear infinite;
   opacity: 0;
   transition: opacity .3s ease-in-out;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .glow-on-hover:active {

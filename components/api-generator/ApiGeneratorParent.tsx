@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Sparkles } from "lucide-react";
 import { Button } from "../ui/button";
 import { Field } from "../types";
 import * as Types from "@/components/types";
@@ -81,7 +81,10 @@ export const ApiGeneratorParent = () => {
               <span className="hidden md:block">Add New Column</span>
             </Button>
             <button className="glow-on-hover block xl:hidden" type="button">
-              Generate API
+              <div className="flex items-center justify-between gap-2">
+                <Sparkles size={15} strokeWidth={2} className="mr-0 md:mr-1" />
+                <span>Generate API</span>
+              </div>
             </button>
           </div>
         </div>
@@ -105,7 +108,10 @@ export const ApiGeneratorParent = () => {
       <div className="w-full xl:w-1/2">
         <div className="hidden xl:flex justify-end mb-3">
           <button className="glow-on-hover" type="button">
-            Generate API
+            <div className="flex items-center justify-between gap-1">
+              <Sparkles size={15} strokeWidth={2} className="mr-0 md:mr-1" />
+              <span>Generate API</span>
+            </div>
           </button>
         </div>
         <div className="rounded-md h-[43vh] md:h-[44vh] xl:h-[80vh] border border-gray-300">
