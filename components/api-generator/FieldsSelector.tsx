@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useState } from "react";
+import { Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ApiGeneratorComponentProps } from "../types";
 import * as Types from "@/components/types";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,12 +50,16 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
     <>
       {props.fields.map((el, i) => {
         return (
-          <div key={i} className="flex items-center justify-start gap-3 mb-2">
+          <div key={i} className="flex items-center justify-center md:justify-start gap-2 md:gap-3 mb-2">
             <div>
-              <label className="block">Column Title</label>
+              <label htmlFor={i+'_input'} className="block text-sm text-gray-600 mb-1">
+                Column Title
+              </label>
               <Input
                 type="text"
+                id={i+'_input'}
                 className="border-2 font-medium w-[100%] md:w-auto"
+                placeholder={'Column ' + (i+1)}
                 value={el.name}
                 onChange={(e) => {
                   props.fieldHandlerFn
@@ -70,7 +73,9 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
               />
             </div>
             <div>
-              <label className="block">Datatype</label>
+              <label htmlFor={i+'_dropdown'} className="block text-sm text-gray-600 mb-1">
+                Datatype
+              </label>
               <Popover
                 open={openStates[i]}
                 onOpenChange={(newState: boolean) =>
@@ -82,6 +87,7 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
                     variant="outline"
                     role="combobox"
                     aria-expanded={openStates[i]}
+                    id={i+'_dropdown'}
                     className="border-2 w-[180px] md:w-[200px] justify-between"
                   >
                     {el.type
@@ -110,10 +116,10 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
                                 currentValue === el.type ? "" : currentValue,
                                 el.id
                               );
-                            handleOpenChange(i, false); // Close the dropdown when a selection is made
+                            handleOpenChange(i, false);
                           }}
                         >
-                          {type.name} {/* Display type name instead of value */}
+                          {type.name}
                           <CheckIcon
                             className={cn(
                               "ml-auto h-4 w-4",
@@ -130,17 +136,19 @@ export const FieldsSelector = (props: ApiGeneratorComponentProps) => {
               </Popover>
             </div>
             <div className="mt-5">
-              <Image
+              <Trash2
+                color="#C74438"
+                size={20}
+                className="cursor-pointer"
                 onClick={() =>
                   props.fieldHandlerFn
-                    ? props.fieldHandlerFn(Types.ValueTypes.RemoveField, '', el.id)
+                    ? props.fieldHandlerFn(
+                        Types.ValueTypes.RemoveField,
+                        "",
+                        el.id
+                      )
                     : ""
                 }
-                className="cursor-pointer"
-                src="/delete-dustbin.svg"
-                alt="delete"
-                width={20}
-                height={20}
               />
             </div>
           </div>

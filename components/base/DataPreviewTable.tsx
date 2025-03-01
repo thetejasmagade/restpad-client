@@ -253,7 +253,7 @@ export const DataPreviewTable = (props: ApiGeneratorComponentProps) => {
   });
 
   return (
-    <div className="w-full rounded-md border-b">
+    <div className="w-full rounded-md h-max">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -273,7 +273,7 @@ export const DataPreviewTable = (props: ApiGeneratorComponentProps) => {
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
+        <TableBody className="h-[37vh] md:h-[40vh] xl:h-auto">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
