@@ -122,7 +122,7 @@ export const AuthForm = () => {
       <div className="h-full flex flex-col justify-center">
         <div className="m-6 absolute top-0">
           <Link href="/" className="logo font-semibold">
-            💥 RestPad.io {checkValidations}
+            💥 RestPad.io
           </Link>
         </div>
         <div className="mx-16">
