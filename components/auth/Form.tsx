@@ -80,8 +80,10 @@ export const AuthForm = () => {
     });
     console.log("Login", res);
     setLoading(false);
-    if (res.error) toast.error(res.error.message);
-    else {
+    if (res.error) {
+      toast.error(res.error.message);
+      return;
+    } else {
       if (res.data.session) router.push("/app");
     }
     resetFields();
@@ -93,11 +95,13 @@ export const AuthForm = () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    setUser(user);
 
     console.log("onload", user);
 
-    if (user) router.push("/app");
+    if (user?.user_metadata?.email_verified) {
+      setUser(user);
+      router.push("/app");
+    }
     setfullPageloading(false);
   };
 
