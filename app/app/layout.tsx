@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useDefaultAppStore } from "@/store/useDefaultAppStore";
 import { supabase } from "@/utils/supabaseClient";
 import { Navbar } from "@/components/base/Navbar";
 import { Sidebar } from "@/components/base/Sidebar";
@@ -12,6 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
+  const { updateUserInfo } = useDefaultAppStore();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -36,9 +38,23 @@ export default function RootLayout({
     const {
       data: { user },
     } = await supabase.auth.getUser();
-
     if (!user) router.push("/auth");
-    else setLoading(false);
+    else {
+      console.log(user);
+      updateUserInfo({
+        id: user.id,
+        email: user.user_metadata.email,
+        fullName: user.user_metadata.display_name,
+        plan: user.user_metadata.plan,
+      });
+      if (user && user?.user_metadata?.first_login) {
+        // WRITE LOGIC HERE WHAT TO DO WHEN USER COMES AT FIRST AFTER EMAIL VERIFICATION🔥🔥🔥
+        await supabase.auth.updateUser({
+          data: { first_login: false },
+        });
+      }
+      setLoading(false);
+    }
   };
 
   return (

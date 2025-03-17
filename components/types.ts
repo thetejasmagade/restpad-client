@@ -27,11 +27,13 @@ export interface QuotesProps {
 }
 
 export interface AuthFields {
+    fullName: string;
     email: string;
     password: string;
 }
 
 export enum AuthField {
+    FullName = "FULLNAME",
     Email = "EMAIL",
     Password = "PASSWORD"
 }

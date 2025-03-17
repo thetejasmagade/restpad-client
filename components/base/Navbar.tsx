@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { createAvatar } from "@dicebear/core";
 import { lorelei } from "@dicebear/collection";
 import { supabase } from "@/utils/supabaseClient";
+import { useDefaultAppStore } from "@/store/useDefaultAppStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
@@ -12,19 +13,19 @@ interface Props {
 
 export const Navbar = (props: Props) => {
   const router = useRouter();
+  const { userInfo } = useDefaultAppStore();
   const avatar = createAvatar(lorelei, {
-    seed: "Tejas Magade",
+    seed: userInfo.fullName,
     backgroundType: ["solid"],
     backgroundColor: ["ebebeb"],
   });
 
   const avatarSvg = avatar.toDataUriSync();
 
-
   const logOut = () => {
     supabase.auth.signOut();
-    router.push('/auth');
-  }
+    router.push("/auth");
+  };
 
   return (
     <nav>
@@ -47,10 +48,10 @@ export const Navbar = (props: Props) => {
         <div className="actions-parent flex items-center">
           <div className="name-plan-info flex flex-col mr-4">
             <span className="text-[12px] text-[#344054] font-semibold">
-              Tejas Magade
+              {userInfo.fullName}
             </span>
             <span className="text-[10px] text-right text-red-500 ">
-              FREE Plan
+              {userInfo.plan} Plan
             </span>
           </div>
           <div className="avatar" onClick={logOut}>

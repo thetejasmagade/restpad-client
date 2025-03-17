@@ -19,6 +19,7 @@ export const AuthForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [fullPageloading, setfullPageloading] = useState<boolean>(true);
   const [authFields, setAuthFields] = useState<Types.AuthFields>({
+    fullName: "",
     email: "",
     password: "",
   });
@@ -35,7 +36,12 @@ export const AuthForm = () => {
   }, []);
 
   const handleChange = (type: Types.AuthField, value: string) => {
-    const fieldToUpdate = type === Types.AuthField.Email ? "email" : "password";
+    const fieldToUpdate =
+      type === Types.AuthField.Email
+        ? "email"
+        : type === Types.AuthField.FullName
+        ? "fullName"
+        : "password";
     setAuthFields((authFields) => ({
       ...authFields,
       [fieldToUpdate]: value,
@@ -44,10 +50,16 @@ export const AuthForm = () => {
 
   const handleSignUp = async () => {
     setLoading(true);
+    const { fullName, ...rest } = authFields;
     const res = await supabase.auth.signUp({
-      ...authFields,
+      ...rest,
       options: {
         emailRedirectTo: `${location.origin}/auth/callback`,
+        data: {
+          display_name: authFields.fullName,
+          first_login: true,
+          plan: "FREE",
+        },
       },
     });
     setLoading(false);
@@ -75,8 +87,9 @@ export const AuthForm = () => {
 
   const handleSignIn = async () => {
     setLoading(true);
+    const { fullName, ...rest } = authFields;
     const res = await supabase.auth.signInWithPassword({
-      ...authFields,
+      ...rest,
     });
     console.log("Login", res);
     setLoading(false);
@@ -107,13 +120,14 @@ export const AuthForm = () => {
 
   const resetFields = () => {
     setAuthFields({
+      fullName: "",
       email: "",
       password: "",
     });
   };
 
   const checkValidations = useMemo((): boolean => {
-    if (authFields.email && authFields.password) {
+    if (authFields.email && authFields.password && authFields.fullName) {
       return true;
     } else {
       return false;
@@ -150,7 +164,30 @@ export const AuthForm = () => {
           </div>
 
           <form className="mt-4" onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="email">Email</label>
+            {isLogin ? (
+              <></>
+            ) : (
+              <>
+                <label htmlFor="full-name">
+                  Full Name <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  onInput={(e: FormEvent<HTMLInputElement>) =>
+                    handleChange(
+                      Types.AuthField.FullName,
+                      e.currentTarget.value
+                    )
+                  }
+                  id="full-name"
+                  type="text"
+                  value={authFields.fullName}
+                  className="mt-2 mb-4 w-full border-2 bg-gray-50 border-gray-300 focus:border-blue-800"
+                />
+              </>
+            )}
+            <label htmlFor="email">
+              Email <span className="text-red-500">*</span>
+            </label>
             <Input
               onInput={(e: FormEvent<HTMLInputElement>) =>
                 handleChange(Types.AuthField.Email, e.currentTarget.value)
@@ -161,7 +198,9 @@ export const AuthForm = () => {
               className="mt-2 mb-4 w-full border-2 bg-gray-50 border-gray-300 focus:border-blue-800"
             />
             <div className="flex items-center justify-between">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">
+                Password <span className="text-red-500">*</span>
+              </label>
               <Link
                 href="/forgot-password"
                 className={`text-xs text-blue-600 hover:text-blue-900`}
