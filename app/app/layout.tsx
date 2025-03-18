@@ -6,6 +6,7 @@ import { supabase } from "@/utils/supabaseClient";
 import { Navbar } from "@/components/base/Navbar";
 import { Sidebar } from "@/components/base/Sidebar";
 import FullPageLoader from "@/components/base/FullPageLoader";
+import { apiHandler } from "@/utils/apiHandler";
 
 export default function RootLayout({
   children,
@@ -15,7 +16,7 @@ export default function RootLayout({
   const router = useRouter();
   const { updateUserInfo } = useDefaultAppStore();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [fullPageLoading, setFullPageLoading] = useState(true);
 
   const sidebarHandler = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -53,13 +54,18 @@ export default function RootLayout({
           data: { first_login: false },
         });
       }
-      setLoading(false);
+      setFullPageLoading(false);
     }
+    // THIS IS FAKE API REQUEST TO CHECK WHAT TO SEND NEW USER CREATION 🔥🔥🔥🔥
+    const { data, loading, error } = await apiHandler("", {
+      method: "POST",
+    });
+    console.log(data, loading, error);
   };
 
   return (
     <>
-      {loading ? (
+      {fullPageLoading ? (
         <FullPageLoader />
       ) : (
         <div className="flex">
