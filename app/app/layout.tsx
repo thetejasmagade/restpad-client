@@ -42,25 +42,37 @@ export default function RootLayout({
     if (!user) router.push("/auth");
     else {
       console.log(user);
-      updateUserInfo({
+      const userInfo = {
         id: user.id,
         email: user.user_metadata.email,
         fullName: user.user_metadata.display_name,
         plan: user.user_metadata.plan,
-      });
+      };
+      updateUserInfo(userInfo);
       if (user && user?.user_metadata?.first_login) {
         // WRITE LOGIC HERE WHAT TO DO WHEN USER COMES AT FIRST AFTER EMAIL VERIFICATION🔥🔥🔥
-        await supabase.auth.updateUser({
-          data: { first_login: false },
+        const res = await apiHandler("user/add-user", {
+          method: "POST",
+          body: JSON.stringify({
+            user_id: user.id,
+            email: user.user_metadata.email,
+            full_name: user.user_metadata.display_name,
+            plan: user.user_metadata.plan,
+          }),
         });
+        if (res.status == 201) {
+          await supabase.auth.updateUser({
+            data: { first_login: false },
+          });
+        }
       }
       setFullPageLoading(false);
     }
     // THIS IS FAKE API REQUEST TO CHECK WHAT TO SEND NEW USER CREATION 🔥🔥🔥🔥
-    const { data, loading, error } = await apiHandler("", {
-      method: "POST",
-    });
-    console.log(data, loading, error);
+    // const { data, loading, error } = await apiHandler("", {
+    //   method: "GET",
+    // });
+    // console.log(data, loading, error);
   };
 
   return (
