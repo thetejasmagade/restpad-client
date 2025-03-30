@@ -127,7 +127,12 @@ export const AuthForm = () => {
   };
 
   const checkValidations = useMemo((): boolean => {
-    if (authFields.email && authFields.password && authFields.fullName) {
+    console.log("ygt6yt");
+    if (
+      authFields.email && authFields.password && isLogin
+        ? true
+        : authFields.fullName
+    ) {
       return true;
     } else {
       return false;
@@ -217,25 +222,33 @@ export const AuthForm = () => {
               value={authFields.password}
               className="mt-2 mb-8 w-full border-2 bg-gray-50 border-gray-300 focus:border-blue-800"
             />
-            <Button
-              onClick={isLogin ? handleSignIn : handleSignUp}
-              className={`block w-full bg-[#2a4680] hover:bg-blue-950 ${
-                checkValidations ? "pointer-events-auto" : "pointer-events-none"
+            <div
+              className={`block w-full ${
+                checkValidations ? "cursor-pointer" : "cursor-not-allowed"
               }`}
             >
-              <div className="flex items-center justify-center">
-                {loading ? (
-                  <Image
-                    src="/loading-spinner.svg"
-                    width="20"
-                    height="20"
-                    alt="loading-spinner"
-                  />
-                ) : (
-                  <span>{isLogin ? "Sign in" : "Sign up"}</span>
-                )}
-              </div>
-            </Button>
+              <Button
+                onClick={isLogin ? handleSignIn : handleSignUp}
+                className={`block w-full bg-[#2a4680] hover:bg-blue-950 ${
+                  checkValidations
+                    ? "pointer-events-auto"
+                    : "pointer-events-none"
+                }`}
+              >
+                <div className="flex items-center justify-center">
+                  {loading ? (
+                    <Image
+                      src="/loading-spinner.svg"
+                      width="20"
+                      height="20"
+                      alt="loading-spinner"
+                    />
+                  ) : (
+                    <span>{isLogin ? "Sign in" : "Sign up"}</span>
+                  )}
+                </div>
+              </Button>
+            </div>
           </form>
           <div className="mt-4 text-center text-sm">
             <p>
