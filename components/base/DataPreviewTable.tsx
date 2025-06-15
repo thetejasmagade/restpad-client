@@ -1,26 +1,13 @@
 "use client";
+
 import * as React from "react";
 import { faker } from "@faker-js/faker";
 import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons";
-import {
   ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
   useReactTable,
+  flexRender,
 } from "@tanstack/react-table";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -32,27 +19,6 @@ import {
 import { ApiGeneratorComponentProps } from "../types";
 import { useEffect } from "react";
 
-// const data: Payment[] = [
-//   {
-//     id: 1,
-//     amount: 316,
-//     status: "success",
-//     email: "ken99@yahoo.com",
-//   },
-//   {
-//     id: 2,
-//     amount: 242,
-//     status: "success",
-//     email: "Abe45@gmail.com",
-//   },
-//   {
-//     id: 3,
-//     amount: 837,
-//     status: "processing",
-//     email: "Monserrat44@gmail.com",
-//   },
-// ];
-
 export type Payment = {
   id: number;
   amount: number;
@@ -60,52 +26,51 @@ export type Payment = {
   email: string;
 };
 
-// export const columns: ColumnDef<Payment>[] = [
-//   {
-//     accessorKey: "status",
-//     header: "Status",
-//     cell: ({ row }) => (
-//       <div className="capitalize">{row.getValue("status")}</div>
-//     ),
-//   },
-// ];
-
 export const DataPreviewTable = (props: ApiGeneratorComponentProps) => {
-  const [columns, setColumns] = React.useState<ColumnDef<Payment>[]>([
-    {
-      accessorKey: "id",
-      header: "ID",
-      cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
-    },
-  ]);
+  const [columns, setColumns] = React.useState<ColumnDef<Payment>[]>([]);
   const [data, setData] = React.useState<any>([]);
 
   useEffect(() => {
     const res = props.fields.map((column) => {
       return {
-        accessorKey: column.name,
-        header: column.name,
+        accessorKey: column.id,
+        header: column.name.toLocaleUpperCase(),
         cell: ({ row }: any) => (
-          <div className="capitalize">{row.getValue(column.name)}</div>
+          <div className={`${column.type == 'string' ? 'capitalize' :  ''} truncate overflow-hidden whitespace-nowrap`}>
+            {row.getValue(column.id)}
+          </div>
         ),
       };
     });
+
+    // Add static ID column at the beginning
     res.unshift({
       accessorKey: "id",
       header: "ID",
-      cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
+      cell: ({ row }) => (
+        <div className="capitalize truncate overflow-hidden whitespace-nowrap">
+          {row.getValue("id")}
+        </div>
+      ),
     });
-    setData([]);
-    let tempDataArray: any = [];
-    for (let i = 1; i <= 5; i++) {
-      let tempData: any = {};
-      tempData.id = i;
 
+    // Generate dummy data
+    let tempDataArray: any = [];
+    for (let i = 1; i <= 20; i++) {
+      let tempData: any = { id: i };
       props.fields.forEach((field) => {
-        tempData[field.name] = faker.person.fullName();
+        console.log(field)
+        if (field.type == 'boolean') {
+          tempData[field.id] = String(faker.datatype.boolean());
+        } else if (field.type == 'number') {
+          tempData[field.id] = faker.finance.amount();
+        } else {
+          tempData[field.id] = faker.person.fullName();
+        }
       });
       tempDataArray.push(tempData);
     }
+
     setData(tempDataArray);
     setColumns(res);
   }, [props.fields]);
@@ -116,24 +81,38 @@ export const DataPreviewTable = (props: ApiGeneratorComponentProps) => {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const isFewColumns = columns.length <= 4;
+
+  const getColumnStyle = (columnId: string) => {
+    if (isFewColumns) {
+      return { width: `${100 / columns.length}%` };
+    } else {
+      return columnId === "id"
+        ? { width: 60, maxWidth: 60 }
+        : { width: 180, maxWidth: 180 };
+    }
+  };
+
   return (
-    <div className="w-full rounded-md h-max">
+    <div className="w-full rounded-md h-max overflow-auto">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
+            <TableRow key={headerGroup.id} className="bg-gray-100">
+              {headerGroup.headers.map((header) => (
+                <TableHead
+                  key={header.id}
+                  className="truncate overflow-hidden whitespace-nowrap"
+                  style={getColumnStyle(header.column.id)}
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                      header.column.columnDef.header || 'COLUMN',
+                      header.getContext()
+                    )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
@@ -142,8 +121,14 @@ export const DataPreviewTable = (props: ApiGeneratorComponentProps) => {
             table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  <TableCell
+                    key={cell.id}
+                    className="truncate overflow-hidden whitespace-nowrap"
+                    style={getColumnStyle(cell.column.id)}
+                  >
+                    <div className="truncate w-full max-w-full cursor-default">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </div>
                   </TableCell>
                 ))}
               </TableRow>

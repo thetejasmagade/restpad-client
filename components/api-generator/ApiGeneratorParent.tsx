@@ -58,9 +58,7 @@ export const ApiGeneratorParent = () => {
         }
       });
     } else if (handlerType === Types.ValueTypes.RemoveField) {
-      temp = temp.filter((el) => {
-        if (el.id != id) return el;
-      });
+      if(temp.length > 1) temp = temp.filter((el) => (el.id != id));
     }
 
     setFields(temp);
