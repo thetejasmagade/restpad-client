@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { faker } from "@faker-js/faker";
 import {
   CaretSortIcon,
   ChevronDownIcon,
@@ -29,223 +30,86 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ApiGeneratorComponentProps } from "../types";
+import { useEffect } from "react";
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },{
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-];
+// const data: Payment[] = [
+//   {
+//     id: 1,
+//     amount: 316,
+//     status: "success",
+//     email: "ken99@yahoo.com",
+//   },
+//   {
+//     id: 2,
+//     amount: 242,
+//     status: "success",
+//     email: "Abe45@gmail.com",
+//   },
+//   {
+//     id: 3,
+//     amount: 837,
+//     status: "processing",
+//     email: "Monserrat44@gmail.com",
+//   },
+// ];
 
 export type Payment = {
-  id: string;
+  id: number;
   amount: number;
   status: "pending" | "processing" | "success" | "failed";
   email: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-  {
-    accessorKey: "email",
-    header: () => {
-      return <div className="capitalize">Email</div>;
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-];
+// export const columns: ColumnDef<Payment>[] = [
+//   {
+//     accessorKey: "status",
+//     header: "Status",
+//     cell: ({ row }) => (
+//       <div className="capitalize">{row.getValue("status")}</div>
+//     ),
+//   },
+// ];
 
 export const DataPreviewTable = (props: ApiGeneratorComponentProps) => {
+  const [columns, setColumns] = React.useState<ColumnDef<Payment>[]>([
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
+    },
+  ]);
+  const [data, setData] = React.useState<any>([]);
+
+  useEffect(() => {
+    const res = props.fields.map((column) => {
+      return {
+        accessorKey: column.name,
+        header: column.name,
+        cell: ({ row }: any) => (
+          <div className="capitalize">{row.getValue(column.name)}</div>
+        ),
+      };
+    });
+    res.unshift({
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
+    });
+    setData([]);
+    let tempDataArray: any = [];
+    for (let i = 1; i <= 5; i++) {
+      let tempData: any = {};
+      tempData.id = i;
+
+      props.fields.forEach((field) => {
+        tempData[field.name] = faker.person.fullName();
+      });
+      tempDataArray.push(tempData);
+    }
+    setData(tempDataArray);
+    setColumns(res);
+  }, [props.fields]);
+
   const table = useReactTable({
     data,
     columns,
@@ -276,9 +140,7 @@ export const DataPreviewTable = (props: ApiGeneratorComponentProps) => {
         <TableBody className="h-[37vh] md:h-[40vh] xl:h-auto">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-              >
+              <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

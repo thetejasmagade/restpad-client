@@ -14,7 +14,7 @@ export const ApiGeneratorParent = () => {
     {
       id: (Math.random() + 1).toString(36).substring(7),
       type: "",
-      name: "",
+      name: "Column 1",
       value: "",
     },
   ]);
@@ -25,7 +25,7 @@ export const ApiGeneratorParent = () => {
       {
         id: (Math.random() + 1).toString(36).substring(7),
         type: "",
-        name: "",
+        name: `${"Column " + (fields.length + 1)}`,
         value: "",
       },
     ]);
