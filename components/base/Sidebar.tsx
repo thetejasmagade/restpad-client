@@ -29,35 +29,40 @@ const menus: Menus = [
     id: 2,
     name: "Projects",
     icon: "/menu-icons/projects.svg",
-    active: true,
     to: "/app/projects",
   },
   {
     id: 3,
+    name: "API Builder",
+    icon: "/menu-icons/api-builder.svg",
+    to: "/app/api-builder",
+  },
+  {
+    id: 4,
     name: "Billing",
     icon: "/menu-icons/tasks.svg",
     to: "",
   },
   {
-    id: 4,
+    id: 5,
     name: "Reporting",
     icon: "/menu-icons/reporting.svg",
     to: "",
   },
   {
-    id: 5,
+    id: 6,
     name: "Users",
     icon: "/menu-icons/users.svg",
     to: "",
   },
   {
-    id: 6,
+    id: 7,
     name: "Support",
     icon: "/menu-icons/support.svg",
     to: "",
   },
   {
-    id: 7,
+    id: 8,
     name: "Settings",
     icon: "/menu-icons/settings.svg",
     to: "",
@@ -83,9 +88,7 @@ export const Sidebar = (props: Props) => {
               <Link onClick={props.handleSidebar} href={menu.to} key={i}>
                 <li
                   className={`menu cursor-pointer my-2 hover:bg-[#344054] pl-4 ${
-                    pathname == menu.to ||
-                    (pathname == "/app/api-builder" && menu.name == "Projects")
-                      ? "active"
+                    pathname == menu.to ? "active"
                       : ""
                   }`}
                 >
