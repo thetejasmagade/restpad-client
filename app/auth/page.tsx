@@ -6,8 +6,7 @@ async function getQuote(): Promise<any> {
     `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/Quotes?select=*`,
     {
       headers: {
-        apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY + "",
-        Authorization: "Bearer " + process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        apikey: String(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
       },
       method: "GET",
       cache: "force-cache",
@@ -15,7 +14,7 @@ async function getQuote(): Promise<any> {
   );
 
   quote = await quote.json();
-
+  
   return quote;
 }
 

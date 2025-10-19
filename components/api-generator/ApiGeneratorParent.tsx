@@ -44,7 +44,6 @@ export const ApiGeneratorParent = () => {
     id?: string
   ) => {
     let temp = [...fields];
-    console.log(handlerType);
     if (handlerType === Types.ValueTypes.Name) {
       temp.map((el) => {
         if (el.id === id) {
