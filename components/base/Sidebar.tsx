@@ -27,9 +27,9 @@ const menus: Menus = [
   },
   {
     id: 2,
-    name: "Projects",
+    name: "Services",
     icon: "/menu-icons/projects.svg",
-    to: "/app/projects",
+    to: "/app/services",
   },
   {
     id: 3,
